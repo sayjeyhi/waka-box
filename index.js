@@ -18,7 +18,7 @@ async function main() {
   } catch(e) {
     console.log("           .(╥﹏╥).           ");
     console.log("AH! There is some error here ~");
-    console.log(e.response.data);
+    e.response ? console.log(e.response.data) : console.log(e);
   }
 }
 
