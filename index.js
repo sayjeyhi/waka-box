@@ -22,8 +22,6 @@ function dateString(days = 0) {
 }
 
 async function main() {
-      console.log(stats);
-
   try {
     const stats = await wakatime.getMyStats({   
       dateRange: {
@@ -31,7 +29,6 @@ async function main() {
         endDate: dateString(0),
       }
     });
-    console.log(stats);
     await updateGist(stats);
   } catch(e) {
     console.log("           .(╥﹏╥).           ");
