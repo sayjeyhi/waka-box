@@ -4,7 +4,8 @@ const Octokit = require("@octokit/rest");
 const {
   GIST_ID: gistId,
   GH_TOKEN: githubToken,
-  WAKATIME_API_KEY: wakatimeApiKey
+  WAKATIME_API_KEY: wakatimeApiKey,
+  RANGE: range = RANGE.LAST_7_DAYS
 } = process.env;
 
 const wakatime = new WakaTimeClient(wakatimeApiKey);
@@ -13,7 +14,7 @@ const octokit = new Octokit({ auth: `token ${githubToken}` });
 
 async function main() {
   try {
-    const stats = await wakatime.getMyStats({ range: RANGE.LAST_YEAR });
+    const stats = await wakatime.getMyStats({ range });
     await updateGist(stats);
   } catch(e) {
     console.log("           .(╥﹏╥).           ");
@@ -53,7 +54,7 @@ async function updateGist(stats) {
       files: {
         [filename]: {
           filename: `📊 Weekly development breakdown`,
-          content: lines.join("\n") || " ( ✜︵✜ ) \n No activity found!"
+          content: lines.join("\n") || "       ( ✜︵✜ )\n No activity found!"
         }
       }
     });
