@@ -1,7 +1,6 @@
 require("dotenv").config();
 const { WakaTimeClient, RANGE } = require("wakatime-client");
 const Octokit = require("@octokit/rest");
-
 const {
   GIST_ID: gistId,
   GH_TOKEN: githubToken,
@@ -12,8 +11,23 @@ const wakatime = new WakaTimeClient(wakatimeApiKey);
 
 const octokit = new Octokit({ auth: `token ${githubToken}` });
 
+function dateString(days = 0) {
+  var date = new Date();
+  var last = new Date(date.getTime() + (days * 24 * 60 * 60 * 1000));
+  var day =last.getDate();
+  var month=last.getMonth()+1;
+  var year=last.getFullYear(); 
+  
+  return `${year}/${month}/${day}`;
+}
+
 async function main() {
-  const stats = await wakatime.getMyStats({ range: RANGE.LAST_7_DAYS });
+  const stats = await wakatime.getMyStats({   
+    dateRange: {
+      startDate: dateString(-7),
+      endDate: dateString(0),
+    }
+  });
   console.log(stats);
   await updateGist(stats);
 }
@@ -49,7 +63,7 @@ async function updateGist(stats) {
       files: {
         [filename]: {
           filename: `📊 Weekly development breakdown`,
-          content: lines.join("\n") || "No activity found!"
+          content: lines.join("\n") || " ( ✜︵✜ ) \n No activity found!"
         }
       }
     });
