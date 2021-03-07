@@ -22,6 +22,7 @@ function dateString(days = 0) {
 }
 
 async function main() {
+  try {
   const stats = await wakatime.getMyStats({   
     dateRange: {
       startDate: dateString(-7),
@@ -30,6 +31,11 @@ async function main() {
   });
   console.log(stats);
   await updateGist(stats);
+  } catch(e) {
+    console.log("           .(╥﹏╥).           ");
+    console.log("AH! There is some error here ~");
+    console.log(e);
+  }
 }
 
 async function updateGist(stats) {
