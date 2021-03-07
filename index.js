@@ -14,6 +14,7 @@ const octokit = new Octokit({ auth: `token ${githubToken}` });
 
 async function main() {
   const stats = await wakatime.getMyStats({ range: RANGE.LAST_7_DAYS });
+  console.log(stats);
   await updateGist(stats);
 }
 
@@ -48,7 +49,7 @@ async function updateGist(stats) {
       files: {
         [filename]: {
           filename: `📊 Weekly development breakdown`,
-          content: lines.join("\n")
+          content: lines.join("\n") || "No activity found!"
         }
       }
     });
