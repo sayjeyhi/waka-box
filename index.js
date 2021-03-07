@@ -18,23 +18,25 @@ function dateString(days = 0) {
   var month=last.getMonth()+1;
   var year=last.getFullYear(); 
   
-  return `${year}/${month}/${day}`;
+  return `${year}/${month}/${day} 00:00`;
 }
 
 async function main() {
+      console.log(stats);
+
   try {
-  const stats = await wakatime.getMyStats({   
-    dateRange: {
-      startDate: dateString(-7),
-      endDate: dateString(0),
-    }
-  });
-  console.log(stats);
-  await updateGist(stats);
+    const stats = await wakatime.getMyStats({   
+      dateRange: {
+        startDate: dateString(-7),
+        endDate: dateString(0),
+      }
+    });
+    console.log(stats);
+    await updateGist(stats);
   } catch(e) {
     console.log("           .(╥﹏╥).           ");
     console.log("AH! There is some error here ~");
-    console.log(e);
+    console.log(e.response.data);
   }
 }
 
