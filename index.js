@@ -12,7 +12,10 @@ const octokit = new Octokit({ auth: `token ${githubToken}` });
 
 async function main() {
   try {
+    console.log("Before call!");
     const stats = await wakatime.getMyStats({ range: RANGE.LAST_7_DAYS });
+    
+    console.log("stats" , stats);
     await updateGist(stats);
   } catch(e) {
     console.log("           .(╥﹏╥).           ");
