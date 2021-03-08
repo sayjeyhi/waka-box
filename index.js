@@ -9,11 +9,10 @@ const {
 
 const wakatime = new WakaTimeClient(wakatimeApiKey);
 const octokit = new Octokit({ auth: `token ${githubToken}` });
-const range = process.env.RANGE || RANGE.LAST_7_DAYS;
 
 async function main() {
   try {
-    const stats = await wakatime.getMyStats({ range });
+    const stats = await wakatime.getMyStats({ range: RANGE.LAST_7_DAYS });
     await updateGist(stats);
   } catch(e) {
     console.log("           .(╥﹏╥).           ");
