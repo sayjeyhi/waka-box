@@ -4,13 +4,12 @@ const Octokit = require("@octokit/rest");
 const {
   GIST_ID: gistId,
   GH_TOKEN: githubToken,
-  WAKATIME_API_KEY: wakatimeApiKey,
-  RANGE: range = RANGE.LAST_7_DAYS
+  WAKATIME_API_KEY: wakatimeApiKey
 } = process.env;
 
 const wakatime = new WakaTimeClient(wakatimeApiKey);
-
 const octokit = new Octokit({ auth: `token ${githubToken}` });
+const range = process.env.RANGE || RANGE.LAST_7_DAYS;
 
 async function main() {
   try {
