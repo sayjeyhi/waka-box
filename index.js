@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { WakaTimeClient, RANGE } = require("wakatime-client");
 const Octokit = require("@octokit/rest");
+
 const {
   GIST_ID: gistId,
   GH_TOKEN: githubToken,
@@ -8,17 +9,12 @@ const {
 } = process.env;
 
 const wakatime = new WakaTimeClient(wakatimeApiKey);
+
 const octokit = new Octokit({ auth: `token ${githubToken}` });
 
 async function main() {
-  try {
-    const stats = await wakatime.getMyStats({ range: RANGE.LAST_7_DAYS });
-    await updateGist(stats);
-  } catch(e) {
-    console.log("           .(╥﹏╥).           ");
-    console.log("AH! There is some error here ~");
-    e.response ? console.log(e.response.data) : console.log(e);
-  }
+  const stats = await wakatime.getMyStats({ range: RANGE.LAST_7_DAYS });
+  await updateGist(stats);
 }
 
 async function updateGist(stats) {
@@ -52,7 +48,7 @@ async function updateGist(stats) {
       files: {
         [filename]: {
           filename: `📊 Weekly development breakdown`,
-          content: lines.join("\n") || "       ( ✜︵✜ )\n No activity found!"
+          content: lines.join("\n")
         }
       }
     });
